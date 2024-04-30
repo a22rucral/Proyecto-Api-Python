@@ -24,10 +24,6 @@ import webbrowser
 list_of_species = []
 
 
-# 1: NO 2:FUNCIONA 3: FUNCIONA 4: FUNCIONA  5: FUNCIONA  6: FUNCIONA
-# Preguntarle a rafa que mas errores puedo controlar
-
-
 def main():
     print('Chequeando conexion a internet: ')
     s(0.5)
@@ -83,8 +79,7 @@ def catch_error(status_code):
             raise ValueError('El recurso solicitado no pudo encontrarse en el servidor')
 
 
-# Uso 1.- Recorre caracteres hasta que coincide el código y devuelve el nombre junto al código del personaje
-# Uso 2.- Recoge una lista de códigos y los busca guardando los nombre en una lista y devuelve la lista con los nombres
+
 def search_character_by_code(list_of_code=None, pages=1, vuelta=False, code=None):
     if list_of_code is None:
         if vuelta is False:
@@ -121,7 +116,6 @@ def search_character_by_code(list_of_code=None, pages=1, vuelta=False, code=None
         search_character_by_code(list_of_code, pages, vuelta, code)
 
 
-# ¡Recorre los caracteres guardando las especies en lista y luego la hace conjunto y devuelve, pasa página True, espera!
 def search_species_of_character(pages=1, vuelta=False):
     url = f'https://rickandmortyapi.com/api/character?page={pages}'
     global list_of_species
@@ -153,7 +147,6 @@ def search_species_of_character(pages=1, vuelta=False):
             print(f'{i + 1}.-{specie}')
 
 
-# recorre los episodios hasta que coincida y recoge cod de caracteres de ese episodio y devuelve lista de nombres, pas p
 def list_episode_characters(pages=1, vuelta=False, format_episode=''):
     if vuelta is False:
         season = int(input('Dime la temporada del episodio: '))
@@ -187,7 +180,6 @@ def list_episode_characters(pages=1, vuelta=False, format_episode=''):
             print(f'{i + 1}.-{character}')
 
 
-# Recorre las localizaciones y devuelve 3 datos suyos, pasando páginas = True
 def residences_of_characters(pages=1):
     url = f'https://rickandmortyapi.com/api/location?page={pages}'
     response = requests.get(url)
@@ -201,15 +193,15 @@ def residences_of_characters(pages=1):
                 print(f'{location["id"]}'.ljust(5), f'{location["name"]}'.ljust(35),
                       f'{location["type"]}'.ljust(22))
 
-        next = input('\nContinuar listando [S/N]')
-        if next.upper() == 'S':
-            pages += 1
-            residences_of_characters(pages)
+        if pages <= 6:
+            next = input('\nContinuar listando [S/N]')
+            if next.upper() == 'S':
+                pages += 1
+                residences_of_characters(pages)
     else:
         catch_error(response.status_code)
 
 
-# Código recorre todas las páginas guardando cod personajes que vivan ahí y devuelve nombre, Pasando Páginas True
 def character_residences(pages=1, vuelta=False, residence=None):
     if vuelta is False:
         residence = input('Dime la residencia que quieras saber: ')
@@ -242,7 +234,6 @@ def character_residences(pages=1, vuelta=False, residence=None):
             print(f'{i + 1}.- {character}')
 
 
-# Código recorre los personajes y cuando coincida el nombre devuelve los datos de este, pasando páginas = True
 def character_info(pages=1, name=None, vuelta=False):
     if vuelta is False:
         name = input('Dime el nombre del personaje: ')
